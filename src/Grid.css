@@ -1,0 +1,19 @@
+.grid-20px {
+  display: grid;
+  grid-template-columns: repeat(100, 20px);
+  grid-template-rows: repeat(100, 20px);
+}
+
+.alive {
+  background: #5f4b8bff;
+}
+
+.dead {
+  background: #e69a8dff;
+}
+
+.grid-20px .cell-20px {
+  width: 18px;
+  height: 18px;
+  border: 1px;
+}
