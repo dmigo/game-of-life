@@ -4,7 +4,9 @@
 
 .start-active {
   background: #e69a8dff;
+  height: 50px;
 }
 .start-inactive {
   background: #5f4b8bff;
+  height: 50px;
 }

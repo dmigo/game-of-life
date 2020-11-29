@@ -58,6 +58,8 @@ function Grid({ active }) {
   const width = 100;
   const height = 100;
   const stepInterval = 100;
+  const batches = 10;
+  const batchSize = (width * height) / batches;
   const [cells, setCells] = useState(generateCells(width * height));
 
   const toggleCell = (cell) => {
@@ -93,7 +95,34 @@ function Grid({ active }) {
 
   return (
     <div className="grid-20px">
-      {cells.map((cell, i) => (
+      {cells.slice(0, batchSize * 1).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 1, batchSize * 2).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 2, batchSize * 3).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 3, batchSize * 4).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 4, batchSize * 5).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 5, batchSize * 6).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 6, batchSize * 7).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 7, batchSize * 8).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 8, batchSize * 9).map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
+      ))}
+      {cells.slice(batchSize * 9).map((cell, i) => (
         <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
       ))}
     </div>
