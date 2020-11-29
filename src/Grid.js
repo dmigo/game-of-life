@@ -2,10 +2,12 @@ import "./Grid.css";
 import { useState, useEffect } from "react";
 
 function Cell({ cell, toggle }) {
+  const deadColor = "#5f4b8bff";
   return (
     <div
       className={["cell-20px", cell.alive ? "alive" : "dead"].join(" ")}
       onClick={() => toggle(cell)}
+      style={{ background: cell.alive ? cell.color : deadColor }}
     >
       {cell.alive ? cell.symbol : " "}
     </div>
@@ -17,11 +19,16 @@ function generateSymbol() {
     "❤❥웃유🍾☮✌☏✔☑♚▲♪✈⌚¿♥❣♂♀⚤Ⓐ✍✉☣☤✘☒♛▼♫⌘⌛¡♡ღツ☼☁❅♾️✎©®™Σ✪✯☭➳•✿⚡☃☂✄¢€£∞✫★½☯";
   return symbols[~~(Math.random() * symbols.length)];
 }
+function generateColor() {
+  const colors = ["#501774", "#8C43AB", "#CB7DE1", "#746BE0", "#4A42B8"];
+  return colors[~~(Math.random() * colors.length)];
+}
 
 function generateCells(amount) {
   const cells = [...new Array(amount).keys()].map((cell) => ({
     alive: false,
     symbol: generateSymbol(),
+    color: generateColor(),
   }));
 
   return cells;
