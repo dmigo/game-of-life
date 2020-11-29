@@ -5,15 +5,14 @@
 }
 
 .alive {
-  background: #5f4b8bff;
-}
-
-.dead {
   background: #e69a8dff;
 }
 
+.dead {
+  background: #5f4b8bff;
+}
+
 .grid-20px .cell-20px {
-  width: 18px;
-  height: 18px;
-  border: 1px;
+  width: 20px;
+  height: 20px;
 }

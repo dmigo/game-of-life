@@ -13,8 +13,9 @@ function Cell({ cell, toggle }) {
 }
 
 function generateSymbol() {
-  const allowedEmoji = "😊🙃🤪🤓🤯😴💩👻👽🤖👾👐🖖🤟🤘🤙👋🐭🦕🦖🐉";
-  return allowedEmoji[~~(Math.random() * allowedEmoji.length)];
+  const symbols =
+    "❤❥웃유🍾☮✌☏✔☑♚▲♪✈⌚¿♥❣♂♀⚤Ⓐ✍✉☣☤✘☒♛▼♫⌘⌛¡♡ღツ☼☁❅♾️✎©®™Σ✪✯☭➳•✿⚡☃☂✄¢€£∞✫★½☯";
+  return symbols[~~(Math.random() * symbols.length)];
 }
 
 function generateCells(amount) {
@@ -26,14 +27,42 @@ function generateCells(amount) {
   return cells;
 }
 
-function Grid() {
-  const [cells, setCells] = useState(generateCells(100 * 100));
+function getNeighbors(index, width, height) {
+  const left = index - 1;
+  const right = index + 1;
+  const upper = index - width;
+  const upperLeft = upper - 1;
+  const upperRight = upper + 1;
+  const lower = index + width;
+  const lowerLeft = lower - 1;
+  const lowerRight = lower + 1;
+
+  return [
+    left,
+    right,
+    upper,
+    upperLeft,
+    upperRight,
+    lower,
+    lowerLeft,
+    lowerRight,
+  ].filter((x) => x > 0 && x < width * height);
+}
+
+function doesSurvive(isAlive, neighbors) {
+  if (isAlive) return neighbors === 2 || neighbors === 3;
+  else return neighbors === 3;
+}
+
+function Grid({ active }) {
+  const width = 100;
+  const height = 100;
+  const stepInterval = 100;
+  const [cells, setCells] = useState(generateCells(width * height));
 
   const toggleCell = (cell) => {
     setCells((prevState) => {
       const index = prevState.indexOf(cell);
-      console.log(cell);
-      console.log(index);
       return [
         ...prevState.slice(0, index),
         { ...cell, alive: !cell.alive },
@@ -42,12 +71,30 @@ function Grid() {
     });
   };
 
-  const turn = () => {};
+  useEffect(() => {
+    if (active) {
+      const interval = setInterval(() => {
+        setCells((prevState) => {
+          return prevState.map((cell, index) => {
+            const neighbors = getNeighbors(index, width, height);
+            const aliveNeighbors = neighbors
+              .map((x) => (prevState[x].alive ? 1 : 0))
+              .reduce((a, c) => a + c);
+            return {
+              ...cell,
+              alive: doesSurvive(cell.alive, aliveNeighbors),
+            };
+          });
+        });
+      }, stepInterval);
+      return () => clearInterval(interval);
+    }
+  }, [active]);
 
   return (
     <div className="grid-20px">
-      {cells.map((cell) => (
-        <Cell cell={cell} toggle={toggleCell} />
+      {cells.map((cell, i) => (
+        <Cell key={`cell-${i}`} cell={cell} toggle={toggleCell} />
       ))}
     </div>
   );
